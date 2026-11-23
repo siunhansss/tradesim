@@ -60,7 +60,7 @@ class AuthTest extends TestCase
             'password' => 'abc',
             'password_confirmation' => 'xyz',
         ])->assertRedirect('/register')
-          ->assertSessionHasErrors(['name', 'email', 'password']);
+            ->assertSessionHasErrors(['name', 'email', 'password']);
 
         $this->assertGuest();
     }

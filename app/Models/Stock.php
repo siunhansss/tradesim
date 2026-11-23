@@ -97,7 +97,7 @@ class Stock extends Model
         }
         $query->where(function (Builder $q) use ($term) {
             $q->where('symbol', 'like', '%'.strtoupper($term).'%')
-              ->orWhere('name', 'like', '%'.$term.'%');
+                ->orWhere('name', 'like', '%'.$term.'%');
         });
     }
 
