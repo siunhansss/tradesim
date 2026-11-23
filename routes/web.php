@@ -8,6 +8,8 @@ use App\Http\Controllers\MarketController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TradeController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +43,13 @@ Route::middleware('auth')->group(function () {
     // M04 – Đặt lệnh: chỉ Trader đang hoạt động, giới hạn 30 lệnh/phút (mục 8.2).
     Route::post('/orders', [OrderController::class, 'store'])
         ->middleware(['can:trade', 'throttle:orders'])->name('orders.store');
+    Route::get('/orders', [OrderController::class, 'index'])->middleware('can:trade')->name('orders.index');
+    // Hủy lệnh: chỉ chủ lệnh, lệnh còn mở (OrderPolicy::cancel).
+    Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->middleware('can:cancel,order')->name('orders.destroy');
+    Route::get('/trades', [TradeController::class, 'index'])->middleware('can:trade')->name('trades.index');
+
+    // M03 – Ví ảo và sổ dòng tiền.
+    Route::get('/wallet', [WalletController::class, 'index'])->middleware('can:trade')->name('wallet.index');
 
     // M05 – Danh mục.
     Route::get('/portfolio', [PortfolioController::class, 'index'])->middleware('can:trade')->name('portfolio.index');
@@ -52,7 +61,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::redirect('/', '/admin/stocks')->name('index');
     Route::resource('stocks', Admin\StockController::class)->except('show');
+    Route::resource('users', Admin\UserController::class)->except('show');
     Route::get('/settings', [Admin\SettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [Admin\SettingController::class, 'update'])->name('settings.update');
     Route::post('/prices/run', [Admin\SettingController::class, 'runPrices'])->name('prices.run');
+    Route::post('/session/close', [Admin\SettingController::class, 'closeSession'])->name('session.close');
 });

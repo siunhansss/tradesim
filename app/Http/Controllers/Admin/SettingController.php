@@ -8,6 +8,7 @@ use App\Models\JobRun;
 use App\Models\MarketSetting;
 use App\Services\AuditLogger;
 use App\Services\PriceEngine;
+use App\Services\SessionCloser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -67,6 +68,20 @@ class SettingController extends Controller
                 'skipped' => 'Phiên mô phỏng đang đóng nên không cập nhật giá. Hãy mở phiên trước.',
                 default => 'Cập nhật giá gặp lỗi. Xem chi tiết trong bảng tác vụ nền bên dưới.',
             },
+        );
+    }
+
+    /** Chốt phiên thủ công khi demo, thay cho lịch 14:45 (issue #12). */
+    public function closeSession(Request $request, SessionCloser $closer): RedirectResponse
+    {
+        $result = $closer->close('admin:'.$request->user()->email);
+        $this->audit->log('session.close', null, $result['status'], $result);
+
+        return back()->with(
+            $result['status'] === 'ok' ? 'success' : 'error',
+            $result['status'] === 'ok'
+                ? "Đã chốt phiên: hủy {$result['cancelled']} lệnh LO còn mở, đặt giá tham chiếu mới cho {$result['stocks']} mã."
+                : 'Chốt phiên gặp lỗi. Xem chi tiết trong bảng tác vụ nền.',
         );
     }
 }

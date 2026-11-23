@@ -76,7 +76,7 @@
         </div>
         <div class="col-lg-5">
             <div class="card h-100">
-                <div class="card-header bg-white fw-semibold">Biến động tiền gần nhất</div>
+                <div class="card-header bg-white fw-semibold d-flex justify-content-between">Biến động tiền gần nhất <a href="{{ route('wallet.index') }}" class="small fw-normal">Xem sổ dòng tiền</a></div>
                 <div class="table-responsive">
                     <table class="table mb-0">
                         <thead><tr><th>Thời gian</th><th>Loại</th><th class="text-end">Số tiền</th></tr></thead>

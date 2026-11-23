@@ -28,10 +28,26 @@ Mỗi lần chạy ghi một dòng vào `job_runs` với trạng thái `ok`, `sk
 - Lệnh mua LO giữ tiền theo giá đặt; khi khớp ở giá thấp hơn, phần chênh lệch được trả lại vào số dư khả dụng.
 - Mỗi lệnh khớp trong một transaction riêng, khóa theo thứ tự: lệnh, mã, ví, holding. Lỗi ở một lệnh được ghi vào `job_runs.details` và không chặn các lệnh khác.
 
+## Hủy lệnh
+
+- Chỉ chủ lệnh được hủy, và chỉ khi lệnh đang **Chờ khớp** hoặc **Khớp một phần** (`OrderPolicy::cancel`).
+- Hủy chỉ tác động phần chưa khớp: trả lại toàn bộ tiền còn giữ (lệnh mua) hoặc cổ phiếu còn giữ (lệnh bán). Phần đã khớp và các giao dịch khớp giữ nguyên (BR-06).
+
+## Chốt phiên
+
+Chạy lúc 14:45 thứ Hai–Sáu (giờ Việt Nam), hoặc Admin bấm **Chốt phiên ngay**:
+
+1. Hủy phần chưa khớp của mọi lệnh LO còn mở.
+2. Ghi giá hiện tại vào lịch sử với nguồn "Giá đóng cửa".
+3. Giá đóng cửa thành giá tham chiếu phiên sau; tính lại trần/sàn ±7%; đặt lại tổng khối lượng về 0.
+
+Chạy lại nhiều lần trong ngày vẫn an toàn: không còn lệnh để hủy, giá tham chiếu không đổi.
+
 ## Chạy trên máy phát triển
 
 ```bash
 php artisan tradesim:prices                    # cập nhật một lần
 php artisan tradesim:prices --times=10 --sleep=3   # 10 lần, cách nhau 3 giây (demo)
-php artisan schedule:work                      # chạy theo lịch, mỗi 30 giây
+php artisan schedule:work                      # chạy theo lịch: giá mỗi 30 giây, chốt phiên 14:45
+php artisan tradesim:close-session             # chốt phiên ngay
 ```

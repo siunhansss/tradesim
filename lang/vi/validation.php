@@ -4,7 +4,7 @@
 return [
     'accepted' => 'Bạn cần đồng ý với :attribute.',
     'after' => ':Attribute phải là ngày sau :date.',
-    'after_or_equal' => ':Attribute phải là ngày từ :date trở đi.',
+    'after_or_equal' => ':Attribute phải bằng hoặc sau :date.',
     'alpha_num' => ':Attribute chỉ được chứa chữ và số.',
     'array' => ':Attribute phải là một danh sách.',
     'before' => ':Attribute phải là ngày trước :date.',
@@ -89,7 +89,9 @@ return [
     'unique' => ':Attribute đã được sử dụng.',
     'uuid' => ':Attribute phải là UUID hợp lệ.',
 
-    'custom' => [],
+    'custom' => [
+        'to' => ['after_or_equal' => 'Ngày kết thúc phải bằng hoặc sau ngày bắt đầu.'],
+    ],
 
     // Tên hiển thị mặc định; Form Request có thể ghi đè bằng attributes().
     'attributes' => [
@@ -102,5 +104,10 @@ return [
         'status' => 'trạng thái',
         'quantity' => 'khối lượng',
         'limit_price' => 'giá đặt',
+        'from' => 'từ ngày',
+        'to' => 'đến ngày',
+        'side' => 'chiều lệnh',
+        'type' => 'loại',
+        'role' => 'vai trò',
     ],
 ];

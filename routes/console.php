@@ -11,3 +11,9 @@ use Illuminate\Support\Facades\Schedule;
 Schedule::command('tradesim:prices')
     ->everyThirtySeconds()
     ->withoutOverlapping();
+
+// Chốt phiên lúc 14:45 giờ Việt Nam, thứ Hai đến thứ Sáu (issue #12).
+Schedule::command('tradesim:close-session')
+    ->weekdays()
+    ->at('14:45')
+    ->timezone('Asia/Ho_Chi_Minh');

@@ -10,13 +10,13 @@
 |---|---|
 | M01 Đăng ký, đăng nhập, đăng xuất, phân quyền Trader/Admin, giới hạn đăng nhập sai | Có (v0.1.0) |
 | M02 Bảng giá: tìm kiếm, lọc ngành, sắp xếp, phân trang; chi tiết mã và biểu đồ | Có (v0.1.0) |
-| M03 Ví ảo, cấp vốn khởi tạo một lần, sổ biến động tiền | Một phần (v0.1.0) |
+| M03 Ví ảo, cấp vốn khởi tạo một lần, sổ dòng tiền có lọc kỳ, số dư đầu/cuối kỳ | Có (v0.3.0) |
 | M10 Quản lý mã cổ phiếu: thêm, sửa, xóa, tìm kiếm, lọc, sắp xếp, phân trang, audit log | Có (v0.1.0) |
 | M04 Đặt lệnh MP/LO, khớp lệnh MP ngay, khớp LO theo Price Engine, khớp một phần | Có (v0.3.0) |
-| M04 Hủy lệnh, sổ lệnh có lọc và phân trang | Đang làm |
+| M04 Hủy lệnh, sổ lệnh và lịch sử giao dịch có lọc, sắp xếp, phân trang; chốt phiên | Có (v0.3.0) |
 | M05 Danh mục: giá vốn, lãi/lỗ, tỷ trọng, biểu đồ phân bổ | Có (v0.3.0) |
 | M06 Tổng quan tài chính; báo cáo tháng CSV | Một phần |
-| M10 Cấu hình thị trường, chạy cập nhật giá | Có (v0.3.0) |
+| M10 Cấu hình thị trường, chạy cập nhật giá, chốt phiên; CRUD người dùng | Có (v0.3.0) |
 | M09 Watchlist, cảnh báo giá, thông báo | Đang làm |
 
 ## Yêu cầu hệ thống

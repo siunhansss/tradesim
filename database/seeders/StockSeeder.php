@@ -38,16 +38,23 @@ class StockSeeder extends Seeder
     public function run(): void
     {
         mt_srand(20261123);
-        $start = Carbon::now('Asia/Ho_Chi_Minh')->startOfDay()->subDays(42);
+
+        // 30 phiên gần nhất TRƯỚC hôm nay (bỏ thứ Bảy, Chủ nhật), để giá mẫu luôn nằm trong quá khứ.
+        $tz = 'Asia/Ho_Chi_Minh';
+        $days = [];
+        $day = Carbon::now($tz)->startOfDay();
+        while (count($days) < 30) {
+            $day->subDay();
+            if (! $day->isWeekend()) {
+                $days[] = $day->copy();
+            }
+        }
+        $days = array_reverse($days);
 
         foreach (self::STOCKS as [$symbol, $name, $industry, $reference]) {
             $price = $reference;
             $rows = [];
-            $day = $start->copy();
-            for ($i = 0; $i < 30; $i++) {
-                do {
-                    $day->addDay();
-                } while ($day->isWeekend());
+            foreach ($days as $session) {
                 $band = Stock::priceBand($price);
                 $next = $price * (1 + (mt_rand(-200, 200) / 10000));
                 $next = (int) (round($next / Stock::tickSize((int) $next)) * Stock::tickSize((int) $next));
@@ -57,7 +64,7 @@ class StockSeeder extends Seeder
                     'volume' => mt_rand(500, 20000) * 100,
                     'source' => 'Dữ liệu mẫu',
                     // Giá đóng cửa lúc 14:45 giờ Việt Nam, lưu theo UTC.
-                    'recorded_at' => $day->copy()->setTime(14, 45)->utc(),
+                    'recorded_at' => $session->copy()->setTime(14, 45)->utc(),
                 ];
             }
 

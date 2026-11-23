@@ -4,7 +4,16 @@
 
 ## [Unreleased]
 
+## [0.3.0] – 2026-11-29
+
+Bản MVP: đủ luồng giao dịch đặt – khớp – hủy, sổ lệnh, sổ tiền, quản trị người dùng.
+
 ### Thêm
+- Hủy lệnh và hủy phần chưa khớp của lệnh khớp một phần; giải phóng tiền hoặc cổ phiếu đang giữ; `OrderPolicy` (#10).
+- Sổ lệnh và lịch sử giao dịch khớp: lọc theo mã, trạng thái, chiều, loại, khoảng ngày; sắp xếp; phân trang; tổng theo bộ lọc (#11).
+- Chốt phiên: lệnh `tradesim:close-session`, lịch 14:45, nút cho Admin; hủy lệnh LO còn mở, giá đóng cửa thành giá tham chiếu mới (#12).
+- Sổ dòng tiền: lọc theo kỳ và loại, số dư đầu kỳ, cuối kỳ, tiền vào, tiền ra, kiểm tra khớp, phân trang (#13).
+- Quản lý người dùng cho Admin: thêm, sửa, khóa/mở, đổi vai trò, đặt lại mật khẩu, xóa có ràng buộc, tìm kiếm, lọc, sắp xếp, phân trang (#14).
 - Price Engine: lệnh `tradesim:prices`, lịch chạy mỗi 30 giây, ghi lịch sử giá và `job_runs` (#5).
 - Tự động khớp lệnh LO khi giá chạm giá đặt, tối đa 1.000 cp mỗi lần, có khớp một phần (#9).
 - Trang cấu hình thị trường cho Admin: mở/đóng phiên, phí, thuế, vốn khởi tạo, biên dao động; nút chạy cập nhật giá; bảng tác vụ nền (#6).

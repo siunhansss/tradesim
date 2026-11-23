@@ -11,8 +11,10 @@
                     <li class="nav-item"><a class="nav-link @if(request()->routeIs('dashboard')) active fw-semibold @endif" href="{{ route('dashboard') }}">Tổng quan</a></li>
                     @can('trade')
                         <li class="nav-item"><a class="nav-link @if(request()->routeIs('portfolio.*')) active fw-semibold @endif" href="{{ route('portfolio.index') }}">Danh mục</a></li>
+                        <li class="nav-item"><a class="nav-link @if(request()->routeIs('orders.*', 'trades.*')) active fw-semibold @endif" href="{{ route('orders.index') }}">Sổ lệnh</a></li>
+                        <li class="nav-item"><a class="nav-link @if(request()->routeIs('wallet.*')) active fw-semibold @endif" href="{{ route('wallet.index') }}">Ví</a></li>
                     @endcan
-                    {{-- Sprint 3–4: Sổ lệnh, Tài chính, Cảnh báo --}}
+                    {{-- Tuần 8: Báo cáo tài chính, Cảnh báo giá --}}
                     @can('admin')
                         <li class="nav-item"><a class="nav-link @if(request()->routeIs('admin.*')) active fw-semibold @endif" href="{{ route('admin.index') }}">Quản trị</a></li>
                     @endcan

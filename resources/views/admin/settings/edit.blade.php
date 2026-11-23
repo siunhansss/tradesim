@@ -72,6 +72,29 @@
                 </form>
             </div>
         </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h2 class="h6">Chốt phiên</h2>
+                <p class="small text-secondary">Hủy mọi lệnh LO còn mở và giải phóng tài sản đang giữ; lấy giá hiện tại làm giá tham chiếu, tính lại trần/sàn. Tự chạy lúc 14:45 các ngày làm việc.</p>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#close-session">Chốt phiên ngay</button>
+                <div class="modal fade" id="close-session" tabindex="-1" aria-labelledby="close-session-title" aria-hidden="true">
+                    <div class="modal-dialog"><div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title fs-5" id="close-session-title">Chốt phiên ngay?</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">Mọi lệnh LO đang chờ của tất cả nhà đầu tư sẽ bị hủy phần chưa khớp. Giá trần, sàn của phiên sau tính theo giá hiện tại.</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                            <form method="POST" action="{{ route('admin.session.close') }}">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Chốt phiên</button>
+                            </form>
+                        </div>
+                    </div></div>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header bg-white fw-semibold">Tác vụ nền gần nhất</div>
             <div class="table-responsive">
@@ -83,7 +106,9 @@
                             <td class="num small">@datetime($job->started_at)</td>
                             <td><span class="badge text-bg-{{ ['ok' => 'success', 'skipped' => 'secondary', 'failed' => 'danger'][$job->status] ?? 'warning' }}">{{ $job->status }}</span></td>
                             <td class="small">
-                                @if ($job->status === 'ok')
+                                @if ($job->status === 'ok' && $job->job === 'tradesim:close-session')
+                                    Chốt phiên · hủy {{ $job->details['cancelled'] ?? 0 }} lệnh · {{ $job->details['stocks'] ?? 0 }} mã
+                                @elseif ($job->status === 'ok')
                                     {{ $job->details['updated'] ?? 0 }} mã · {{ $job->details['fills'] ?? 0 }} lần khớp
                                 @elseif ($job->status === 'skipped')
                                     {{ $job->details['reason'] ?? '' }}

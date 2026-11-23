@@ -20,7 +20,7 @@ Vai trò: **TV1** trưởng nhóm, backend giao dịch · **TV2** dữ liệu gi
 | 12 | 7 | TV2 | `tradesim:close-session`: giá đóng cửa, tham chiếu mới, hủy LO treo | 5.6 |
 | 13 | 7 | TV3 | Sổ dòng tiền: lọc theo kỳ, loại; số dư đầu kỳ, cuối kỳ; phân trang | FR-18 |
 | 14 | 7 | TV4 | CRUD người dùng (khóa/mở, đổi vai trò), tìm kiếm, phân trang | FR-13 |
-| 15 | 7 | TV3 | Test chống trùng `request_key` và test hai lệnh đồng thời trên MySQL | BR-05, BR-08 |
+| 15 | 7 | TV3 | Test hai lệnh đồng thời trên MySQL (test chống trùng `request_key` đã có trong `OrderPlacementTest`; còn phần đồng thời) | BR-05, BR-08 |
 | 16 | 8 | TV3 | `tradesim:snapshot` và biểu đồ tổng tài sản | FR-19, BR-16 |
 | 17 | 8 | TV3 | Báo cáo tháng và xuất CSV | FR-20 |
 | 18 | 8 | TV2 | Watchlist (thêm/xóa) và CRUD cảnh báo giá | FR-23, FR-24 |

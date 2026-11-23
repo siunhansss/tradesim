@@ -65,6 +65,55 @@ class OrderService
         };
     }
 
+    /**
+     * Hủy lệnh hoặc phần chưa khớp (quy trình 5.5, BR-06).
+     * Phần đã khớp giữ nguyên trong lịch sử; chỉ giải phóng tiền hoặc cổ phiếu còn giữ.
+     *
+     * @param  User|null  $actor  người hủy; null khi hệ thống hủy (chốt phiên)
+     * @return bool false nếu lệnh không còn mở khi khóa
+     */
+    public function cancel(Order $order, ?User $actor, string $reason = 'Người dùng hủy lệnh'): bool
+    {
+        return DB::transaction(function () use ($order, $actor, $reason) {
+            $order = Order::query()->whereKey($order->id)->lockForUpdate()->firstOrFail();
+            if (! $order->isOpen()) {
+                return false;
+            }
+
+            // Cùng thứ tự khóa với đặt lệnh và khớp lệnh: lệnh, mã, ví, holding.
+            Stock::query()->whereKey($order->stock_id)->lockForUpdate()->first();
+            $wallet = Wallet::query()->where('user_id', $order->user_id)->lockForUpdate()->firstOrFail();
+            $holding = Holding::query()->where('user_id', $order->user_id)->where('stock_id', $order->stock_id)->lockForUpdate()->first();
+
+            $unfilled = $order->remainingQuantity();
+            $released = 0;
+
+            if ($order->side === OrderSide::Buy && $order->reserved_amount > 0) {
+                $released = $order->reserved_amount;
+                $wallet->reserved -= $released;
+                $order->reserved_amount = 0;
+                $this->wallets->record($wallet, LedgerType::Release, $released, $order, "Giải phóng tiền giữ do hủy lệnh #{$order->id}");
+                $wallet->save();
+            } elseif ($order->side === OrderSide::Sell && $order->reserved_quantity > 0) {
+                $holding->reserved_quantity -= $order->reserved_quantity;
+                $holding->save();
+                $order->reserved_quantity = 0;
+            }
+
+            $order->status = OrderStatus::Cancelled;
+            $order->save();
+
+            $this->audit->log('order.cancel', $order, 'ok', [
+                'reason' => $reason,
+                'unfilled_quantity' => $unfilled,
+                'filled_quantity' => $order->filled_quantity,
+                'released_amount' => $released,
+            ], $actor);
+
+            return true;
+        });
+    }
+
     private function placeLocked(User $user, Stock $stock, array $data): OrderPlacement
     {
         $stock = Stock::query()->whereKey($stock->id)->lockForUpdate()->firstOrFail();
