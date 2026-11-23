@@ -2,7 +2,13 @@
 
 namespace App\Enums;
 
-/** Loại bút toán trong sổ biến động tiền (wallet_transactions). */
+/**
+ * Loại bút toán trong sổ biến động tiền (wallet_transactions).
+ *
+ * Quy ước dấu của amount:
+ * - init, buy, sell, fee, tax, adjust: ảnh hưởng tới tổng số dư (balance).
+ * - hold, release: ảnh hưởng tới số dư khả dụng; hold âm (bị giữ lại), release dương (được trả lại).
+ */
 enum LedgerType: string
 {
     case Init = 'init';         // vốn khởi tạo

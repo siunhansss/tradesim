@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,7 +32,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-    // M03, M04, M05, M06, M09 – thêm ở Sprint 2–4 (xem docs/design/routes.md).
+    // M01 – Hồ sơ cá nhân.
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    // M04 – Đặt lệnh: chỉ Trader đang hoạt động, giới hạn 30 lệnh/phút (mục 8.2).
+    Route::post('/orders', [OrderController::class, 'store'])
+        ->middleware(['can:trade', 'throttle:orders'])->name('orders.store');
+
+    // M03, M05, M06, M09 – thêm ở các sprint sau (xem docs/design/routes.md).
 });
 
 // M10 – Quản trị: chỉ Admin (FR-02).

@@ -9,10 +9,12 @@ Trạng thái: **Có** = đã có trong mã Sprint 1; **S2–S4** = sprint dự 
 | M01 | GET/POST | `/login` | login | Auth\AuthenticatedSessionController@create/store | auth/login | guest | TV4 | Có |
 | M01 | GET/POST | `/register` | register | Auth\RegisteredUserController@create/store | auth/register | guest, throttle:6,1 | TV4 | Có |
 | M01 | POST | `/logout` | logout | Auth\AuthenticatedSessionController@destroy | — | auth | TV4 | Có |
-| M03 | GET | `/dashboard` | dashboard | DashboardController | dashboard | auth | TV4 | Có |
+| M06 | GET | `/dashboard` | dashboard | DashboardController (tổng quan tài sản qua PortfolioService) | dashboard | auth | TV3 | Có |
+| M01 | GET/PATCH | `/profile` | profile.edit, profile.update | ProfileController@edit/update | profile/edit | auth | TV4 | Có |
+| M01 | PUT | `/profile/password` | profile.password | ProfileController@updatePassword | profile/edit | auth | TV4 | Có |
 | M03 | GET | `/wallet` | wallet.index | WalletController@index | wallet/index | auth, can:trade | TV1 | S2 |
 | M04 | GET | `/orders` | orders.index | OrderController@index | orders/index | auth, can:trade | TV1 | S2 |
-| M04 | POST | `/orders` | orders.store | OrderController@store | — | auth, can:trade, throttle:orders | TV1 | S2 |
+| M04 | POST | `/orders` | orders.store | OrderController@store (phiếu lệnh nằm trong market/show) | market/_order-ticket | auth, can:trade, throttle:orders | TV1 | Có |
 | M04 | DELETE | `/orders/{order}` | orders.destroy | OrderController@destroy (hủy lệnh) | — | auth, can:cancel,order | TV1 | S3 |
 | M04 | GET | `/trades` | trades.index | TradeController@index | trades/index | auth, can:trade | TV1 | S3 |
 | M05 | GET | `/portfolio` | portfolio.index | PortfolioController@index | portfolio/index | auth, can:trade | TV3 | S2 |
