@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Stock;
 use App\Models\User;
+use App\Services\PortfolioService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function __invoke(Request $request): View
+    public function __invoke(Request $request, PortfolioService $portfolio): View
     {
         $user = $request->user();
 
@@ -25,13 +26,12 @@ class DashboardController extends Controller
             ]);
         }
 
-        $user->load(['wallet', 'holdings.stock']);
+        $wallet = $user->wallet()->first();
 
         return view('dashboard', [
             'user' => $user,
-            'wallet' => $user->wallet,
-            'holdings' => $user->holdings->where('quantity', '>', 0),
-            'transactions' => $user->wallet?->transactions()->latest('id')->limit(10)->get() ?? collect(),
+            'summary' => $portfolio->summary($user),
+            'transactions' => $wallet?->transactions()->latest('id')->limit(10)->get() ?? collect(),
         ]);
     }
 }

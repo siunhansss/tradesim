@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+### Thêm
+- Đặt lệnh MP và LO từ trang chi tiết mã; lệnh MP khớp ngay, lệnh LO giữ tiền hoặc cổ phiếu và chờ khớp (#3, #7).
+- `OrderService`, `MatchingService`: transaction, khóa hàng, chống trùng `request_key`, ghi sổ tiền và audit log.
+- `PortfolioService`: tổng tài sản, lãi/lỗ đã và chưa thực hiện, ROI, tỷ trọng; trang tổng quan hiển thị danh mục (#4).
+- Trang hồ sơ: sửa họ tên, email; đổi mật khẩu (#2).
+- Test đầu cuối chạy lại ví dụ mục 6.3 của đặc tả qua HTTP.
+
 ## [0.1.0] – 2026-11-29
 
 ### Thêm

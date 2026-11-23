@@ -47,12 +47,7 @@
                 </dl>
             </div>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <h2 class="h6">Đặt lệnh</h2>
-                <p class="small text-secondary mb-0">Phiếu đặt lệnh MP/LO được bổ sung ở Sprint 2 (FR-06, FR-07).</p>
-            </div>
-        </div>
+        @include('market._order-ticket')
         @if ($stock->description)
             <div class="card mt-3"><div class="card-body small">{{ $stock->description }}</div></div>
         @endif

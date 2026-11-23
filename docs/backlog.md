@@ -12,7 +12,7 @@ Vai trò: **TV1** trưởng nhóm, backend giao dịch · **TV2** dữ liệu gi
 | 4 | 5 | TV3 | Viết `PortfolioService::summary()` dùng `FinanceCalculator`; test với dữ liệu factory | FR-11, 6.2 |
 | 5 | 6 | TV2 | Lệnh `tradesim:prices` (Price Engine), Scheduler, ghi `stock_prices`, `job_runs` | 5.6, BR-12 |
 | 6 | 6 | TV4 | Trang cấu hình thị trường (mở/đóng phiên, phí, thuế, vốn) có audit log | FR-13, FR-14 |
-| 7 | 6 | TV1 | Đặt lệnh MP mua và bán: transaction, `lockForUpdate`, bút toán, holding, giá vốn | FR-06, FR-07, FR-10, BR-07 |
+| 7 | 6 | TV1 | Đặt lệnh MP mua và bán: transaction, `lockForUpdate`, bút toán, holding, giá vốn (đã gộp vào #3, đóng cùng #3) | FR-06, FR-07, FR-10, BR-07 |
 | 8 | 6 | TV3 | Trang danh mục: nắm giữ, giá vốn, giá trị, lãi/lỗ | FR-11 |
 | 9 | 7 | TV1 | Lệnh LO, job `ProcessPendingOrders`, khớp một phần | FR-08, 5.6 |
 | 10 | 7 | TV1 | Hủy lệnh, `OrderPolicy::cancel`, giải phóng phần chưa khớp | FR-09, BR-06 |

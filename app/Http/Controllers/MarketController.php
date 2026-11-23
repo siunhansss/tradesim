@@ -51,14 +51,24 @@ class MarketController extends Controller
         ]);
     }
 
-    public function show(Stock $stock): View
+    public function show(Request $request, Stock $stock): View
     {
         abort_if($stock->status === StockStatus::Hidden, 404);
 
         $history = $stock->prices()->orderByDesc('recorded_at')->limit(60)->get()->reverse()->values();
 
+        // Thông tin cho phiếu đặt lệnh của Trader.
+        $user = $request->user();
+        $canTrade = $user?->can('trade') ?? false;
+
         return view('market.show', [
             'stock' => $stock,
+            'canTrade' => $canTrade,
+            'wallet' => $canTrade ? $user->wallet()->first() : null,
+            'holding' => $canTrade ? $user->holdings()->where('stock_id', $stock->id)->first() : null,
+            'marketOpen' => MarketSetting::isMarketOpen(),
+            'feeRate' => (float) MarketSetting::value('fee_rate'),
+            'taxRate' => (float) MarketSetting::value('sell_tax_rate'),
             'chartLabels' => $history->map(fn ($p) => Format::datetime($p->recorded_at, 'd/m'))->all(),
             'chartPrices' => $history->pluck('price')->all(),
         ]);

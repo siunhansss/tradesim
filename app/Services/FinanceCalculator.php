@@ -15,6 +15,16 @@ class FinanceCalculator
         private float $sellTaxRate = 0.001,
     ) {}
 
+    public function feeRate(): float
+    {
+        return $this->feeRate;
+    }
+
+    public function sellTaxRate(): float
+    {
+        return $this->sellTaxRate;
+    }
+
     public function fee(int $value): int
     {
         return $this->roundUp($value * $this->feeRate);

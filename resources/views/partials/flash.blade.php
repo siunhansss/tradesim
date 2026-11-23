@@ -7,11 +7,11 @@
     @endif
 @endforeach
 
-@if ($errors->any())
+@if ($errors->default->any())
     <div class="alert alert-danger" role="alert">
         <strong>Vui lòng kiểm tra lại dữ liệu nhập:</strong>
         <ul class="mb-0 mt-1">
-            @foreach ($errors->all() as $message)
+            @foreach ($errors->default->all() as $message)
                 <li>{{ $message }}</li>
             @endforeach
         </ul>

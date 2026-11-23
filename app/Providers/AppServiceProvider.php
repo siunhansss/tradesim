@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\MarketSetting;
 use App\Models\User;
+use App\Services\FinanceCalculator;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -16,7 +18,11 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        // Tỷ lệ phí, thuế lấy từ cấu hình thị trường tại thời điểm dùng (BR-13).
+        $this->app->bind(FinanceCalculator::class, fn () => new FinanceCalculator(
+            feeRate: (float) MarketSetting::value('fee_rate'),
+            sellTaxRate: (float) MarketSetting::value('sell_tax_rate'),
+        ));
     }
 
     public function boot(): void
