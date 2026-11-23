@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    name: Pint + kiểm thử (PHP 8.3, MySQL 8.4)
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: tradesim_test
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -ppassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_mysql, intl
+          coverage: none
+
+      - name: Cài thư viện
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Chuẩn bị môi trường
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Kiểm tra định dạng mã (Pint)
+        run: vendor/bin/pint --test
+
+      - name: Chạy kiểm thử trên MySQL
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: tradesim_test
+          DB_USERNAME: root
+          DB_PASSWORD: password
+        run: php artisan test

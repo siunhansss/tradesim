@@ -1,0 +1,47 @@
+flowchart LR
+    guest(["👤 Khách"])
+    trader(["👤 Nhà đầu tư (Trader)"])
+    admin(["👤 Quản trị viên (Admin)"])
+    system(["⚙️ Tiến trình hệ thống"])
+
+    subgraph TS["Hệ thống TradeSim"]
+        UC1(["Đăng ký, nhận vốn ảo"])
+        UC2(["Đăng nhập, đăng xuất"])
+        UC3(["Xem bảng giá, tìm kiếm, lọc"])
+        UC4(["Xem chi tiết mã, biểu đồ"])
+        UC5(["Đặt lệnh mua/bán MP, LO"])
+        UC6(["Hủy lệnh chờ"])
+        UC7(["Xem sổ lệnh, giao dịch"])
+        UC8(["Xem ví, sổ dòng tiền"])
+        UC9(["Xem danh mục, lãi/lỗ"])
+        UC10(["Xem báo cáo tháng, xuất CSV"])
+        UC11(["Quản lý watchlist, cảnh báo giá"])
+        UC12(["Quản lý mã cổ phiếu"])
+        UC13(["Quản lý người dùng"])
+        UC14(["Cấu hình thị trường, phí"])
+        UC15(["Xem nhật ký, chạy đối soát"])
+        UC16(["Cập nhật giá, khớp lệnh chờ"])
+        UC17(["Kiểm tra cảnh báo, gửi thông báo"])
+        UC18(["Chụp ảnh danh mục cuối ngày"])
+    end
+
+    guest --- UC1
+    guest --- UC2
+    guest --- UC3
+    guest --- UC4
+    trader --- UC3
+    trader --- UC4
+    trader --- UC5
+    trader --- UC6
+    trader --- UC7
+    trader --- UC8
+    trader --- UC9
+    trader --- UC10
+    trader --- UC11
+    UC12 --- admin
+    UC13 --- admin
+    UC14 --- admin
+    UC15 --- admin
+    UC16 --- system
+    UC17 --- system
+    UC18 --- system

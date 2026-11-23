@@ -1,0 +1,34 @@
+sequenceDiagram
+    autonumber
+    actor T as Trader
+    participant C as OrderController
+    participant R as PlaceOrderRequest
+    participant S as OrderService
+    participant DB as CSDL (transaction)
+    participant E as Event OrderFilled
+
+    T->>C: POST /orders (mã, chiều, loại, KL, giá, request_key)
+    C->>R: Kiểm tra dữ liệu (KL bội số 100, giá trong biên độ, bước giá)
+    R-->>C: Lỗi kiểm tra → quay lại form, thông báo tiếng Việt
+    C->>S: place(user, data)
+    S->>DB: BEGIN
+    S->>DB: Tìm lệnh theo (user_id, request_key)
+    alt Đã có lệnh cùng request_key
+        DB-->>S: Lệnh cũ
+        S-->>C: Trả lệnh cũ, không tạo mới (BR-08)
+    else Yêu cầu mới
+        S->>DB: SELECT wallet / holding FOR UPDATE
+        S->>S: Kiểm tra phiên mở, mã giao dịch được, tài khoản hoạt động (BR-04)
+        S->>S: Kiểm tra số dư / cổ phiếu khả dụng (BR-02, BR-05)
+        alt Không đủ điều kiện
+            S->>DB: Lưu lệnh trạng thái Bị từ chối kèm lý do
+        else Hợp lệ
+            S->>DB: Tạo lệnh, giữ tiền hoặc cổ phiếu, ghi bút toán HOLD
+            opt Lệnh MP
+                S->>DB: Khớp: tạo trade, cập nhật ví, holding, giá vốn, bút toán BUY/SELL/FEE/TAX
+                S->>E: dispatch OrderFilled
+            end
+        end
+        S->>DB: COMMIT
+    end
+    C-->>T: Chuyển về sổ lệnh kèm thông báo kết quả

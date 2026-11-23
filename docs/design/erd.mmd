@@ -1,0 +1,168 @@
+erDiagram
+    users ||--o| wallets : "có một"
+    users ||--o{ orders : "đặt"
+    users ||--o{ trades : "có"
+    users ||--o{ holdings : "nắm giữ"
+    users ||--o{ portfolio_snapshots : "có"
+    users ||--o{ watchlists : "theo dõi"
+    users ||--o{ price_alerts : "đặt"
+    users |o--o{ audit_logs : "thực hiện"
+    wallets ||--o{ wallet_transactions : "ghi sổ"
+    stocks ||--o{ stock_prices : "có lịch sử"
+    stocks ||--o{ orders : "được đặt"
+    stocks ||--o{ trades : "được khớp"
+    stocks ||--o{ holdings : "được nắm giữ"
+    stocks ||--o{ watchlists : "được theo dõi"
+    stocks ||--o{ price_alerts : "được cảnh báo"
+    stocks ||--o{ portfolio_snapshot_items : "xuất hiện trong"
+    orders ||--o{ trades : "tạo ra"
+    portfolio_snapshots ||--o{ portfolio_snapshot_items : "gồm"
+
+    users {
+        bigint id PK
+        string name
+        string email UK
+        string password "đã băm"
+        string role "trader | admin"
+        string status "active | locked"
+        timestamp email_verified_at
+    }
+    wallets {
+        bigint id PK
+        bigint user_id FK,UK
+        decimal balance "18,0"
+        decimal reserved "18,0"
+    }
+    wallet_transactions {
+        bigint id PK
+        bigint wallet_id FK
+        string type "init, hold, release, buy, sell, fee, tax, adjust"
+        decimal amount "18,0, có dấu"
+        decimal balance_after
+        decimal reserved_after
+        string reference_type "morph"
+        bigint reference_id "morph"
+        string idempotency_key UK
+        timestamp created_at
+    }
+    stocks {
+        bigint id PK
+        string symbol UK
+        string name
+        string exchange
+        string industry
+        decimal reference_price
+        decimal ceiling_price
+        decimal floor_price
+        decimal last_price
+        bigint volume
+        timestamp last_price_at
+        string price_source
+        string status "active | halted | hidden"
+    }
+    stock_prices {
+        bigint id PK
+        bigint stock_id FK
+        decimal price
+        bigint volume
+        string source
+        timestamp recorded_at
+    }
+    market_settings {
+        bigint id PK
+        string key UK
+        string value
+    }
+    orders {
+        bigint id PK
+        bigint user_id FK
+        bigint stock_id FK
+        string side "buy | sell"
+        string type "MP | LO"
+        int quantity
+        decimal limit_price
+        int filled_quantity
+        decimal avg_fill_price "18,4"
+        decimal reserved_amount
+        int reserved_quantity
+        string status
+        string request_key "UK theo user"
+    }
+    trades {
+        bigint id PK
+        bigint order_id FK
+        bigint user_id FK
+        bigint stock_id FK
+        string side
+        int quantity
+        decimal price
+        decimal value
+        decimal fee
+        decimal tax
+        decimal fee_rate
+        decimal tax_rate
+        decimal realized_pnl
+        timestamp executed_at
+    }
+    holdings {
+        bigint id PK
+        bigint user_id FK
+        bigint stock_id FK
+        int quantity
+        int reserved_quantity
+        decimal total_cost
+        decimal realized_pnl
+    }
+    portfolio_snapshots {
+        bigint id PK
+        bigint user_id FK
+        date snapshot_date "UK theo user"
+        decimal cash
+        decimal stock_value
+        decimal total_assets
+        decimal realized_pnl
+        decimal unrealized_pnl
+    }
+    portfolio_snapshot_items {
+        bigint id PK
+        bigint portfolio_snapshot_id FK
+        bigint stock_id FK
+        int quantity
+        decimal price
+        decimal value
+        decimal weight
+    }
+    watchlists {
+        bigint id PK
+        bigint user_id FK
+        bigint stock_id FK
+    }
+    price_alerts {
+        bigint id PK
+        bigint user_id FK
+        bigint stock_id FK
+        string condition "gte | lte"
+        decimal target_price
+        string status
+        timestamp triggered_at
+        decimal triggered_price
+    }
+    audit_logs {
+        bigint id PK
+        bigint user_id FK
+        string action
+        string auditable_type "morph"
+        bigint auditable_id "morph"
+        string result
+        json details
+        string ip_address
+        timestamp created_at
+    }
+    job_runs {
+        bigint id PK
+        string job
+        string status
+        json details
+        timestamp started_at
+        timestamp finished_at
+    }

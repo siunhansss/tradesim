@@ -1,0 +1,26 @@
+flowchart LR
+    R["TradeSim"]
+    R --> M01["M01 Tài khoản và phân quyền"]
+    R --> M02["M02 Cổ phiếu và dữ liệu giá"]
+    R --> M03["M03 Ví tiền ảo"]
+    R --> M04["M04 Đặt và khớp lệnh"]
+    R --> M05["M05 Danh mục đầu tư"]
+    R --> M06["M06 Quản lý tài chính"]
+    R --> M09["M09 Theo dõi và cảnh báo"]
+    R --> M10["M10 Quản trị và kiểm toán"]
+
+    M01 --> F011["Đăng ký"] & F012["Đăng nhập, đăng xuất"] & F013["Phân quyền Trader/Admin"]
+    M02 --> F021["Bảng giá: tìm, lọc, sắp xếp, phân trang"] & F022["Chi tiết mã, biểu đồ"] & F023["Price Engine cập nhật giá"]
+    M03 --> F031["Cấp vốn khởi tạo một lần"] & F032["Số dư, tiền giữ, khả dụng"] & F033["Sổ dòng tiền"]
+    M04 --> F041["Đặt lệnh MP"] & F042["Đặt lệnh LO, khớp một phần"] & F043["Hủy lệnh"] & F044["Sổ lệnh, giao dịch"]
+    M05 --> F051["Cổ phiếu nắm giữ"] & F052["Giá vốn, lãi/lỗ"]
+    M06 --> F061["Tổng quan tài sản, ROI"] & F062["Ảnh chụp cuối ngày"] & F063["Báo cáo tháng, CSV"]
+    M09 --> F091["Watchlist"] & F092["Cảnh báo giá"] & F093["Thông báo"]
+    M10 --> F101["CRUD mã cổ phiếu"] & F102["Quản lý người dùng"] & F103["Cấu hình thị trường"] & F104["Nhật ký, đối soát"]
+
+    classDef done fill:#e1f3e9,stroke:#0b8a4c,color:#14202f
+    classDef todo fill:#ffffff,stroke:#8a97a8,color:#14202f
+    classDef mod fill:#e2ebfa,stroke:#1d5bc4,color:#14202f,font-weight:bold
+    class M01,M02,M03,M04,M05,M06,M09,M10 mod
+    class F011,F012,F013,F021,F022,F031,F032,F101 done
+    class F023,F033,F041,F042,F043,F044,F051,F052,F061,F062,F063,F091,F092,F093,F102,F103,F104 todo

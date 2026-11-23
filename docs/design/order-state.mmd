@@ -1,0 +1,18 @@
+stateDiagram-v2
+    [*] --> Pending: Đặt lệnh hợp lệ
+    [*] --> Rejected: Không đủ điều kiện
+    Pending --> Filled: Khớp toàn bộ
+    Pending --> PartiallyFilled: Khớp một phần
+    PartiallyFilled --> PartiallyFilled: Khớp thêm
+    PartiallyFilled --> Filled: Khớp phần còn lại
+    Pending --> Cancelled: Người dùng hủy / hết phiên
+    PartiallyFilled --> Cancelled: Hủy phần chưa khớp
+    Filled --> [*]
+    Cancelled --> [*]
+    Rejected --> [*]
+
+    Pending: Chờ khớp
+    PartiallyFilled: Khớp một phần
+    Filled: Đã khớp
+    Cancelled: Đã hủy
+    Rejected: Bị từ chối

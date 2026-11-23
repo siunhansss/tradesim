@@ -1,0 +1,18 @@
+# Changelog
+
+Định dạng theo [Keep a Changelog](https://keepachangelog.com/vi/1.1.0/), phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
+
+## [Unreleased]
+
+## [0.1.0] – 2026-11-29
+
+### Thêm
+- Mô hình dữ liệu: 15 bảng nghiệp vụ, migration, model, relationship, enum (ERD trong `docs/design`).
+- Đăng ký, đăng nhập, đăng xuất; giới hạn 5 lần đăng nhập sai mỗi phút; khóa tài khoản.
+- Phân quyền Trader/Admin bằng Gate; trang lỗi 403, 404, 419, 500 tiếng Việt.
+- Ví ảo, cấp vốn khởi tạo một lần có khóa chống trùng.
+- Bảng giá: tìm kiếm, lọc ngành, sắp xếp, phân trang; chi tiết mã có biểu đồ.
+- Quản trị mã cổ phiếu: thêm, sửa, xóa có ràng buộc, tìm kiếm, lọc, sắp xếp, phân trang, audit log.
+- Dữ liệu mẫu 20 mã, 30 phiên giá, tài khoản demo.
+- `FinanceCalculator` theo mục 6.2 đặc tả, test bằng ví dụ mục 6.3.
+- CI GitHub Actions (Pint + test trên MySQL 8.4), mẫu issue và pull request.
