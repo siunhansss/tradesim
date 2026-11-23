@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="mt-3" style="height: 300px">
-                    <canvas id="priceChart" aria-label="Biểu đồ giá đóng cửa {{ $stock->symbol }}" role="img"></canvas>
+                    <canvas id="priceChart" aria-label="Biểu đồ giá {{ $stock->symbol }}" role="img"></canvas>
                 </div>
                 <p class="small text-secondary mt-2 mb-0">
                     Nguồn: <strong>{{ $stock->price_source }}</strong> · Cập nhật: <span class="num">@datetime($stock->last_price_at)</span> · Đơn vị: đồng
@@ -67,7 +67,7 @@
             data: {
                 labels,
                 datasets: [
-                    { label: 'Giá đóng cửa', data: prices, borderColor: '#1d5bc4', backgroundColor: 'rgba(29,91,196,.12)', fill: true, tension: .2, pointRadius: 0 },
+                    { label: 'Giá', data: prices, borderColor: '#1d5bc4', backgroundColor: 'rgba(29,91,196,.12)', fill: true, tension: .2, pointRadius: 0 },
                     { label: 'Tham chiếu', data: prices.map(() => reference), borderColor: '#a07400', borderDash: [4, 4], pointRadius: 0, fill: false },
                 ],
             },

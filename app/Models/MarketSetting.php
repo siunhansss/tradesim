@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Cache;
 
 /**
  * Cấu hình thị trường dạng khóa – giá trị (mục 6.2).
- * Khóa dùng trong hệ thống: market_open, fee_rate, sell_tax_rate,
- * initial_capital, price_interval_seconds, snapshot_time.
+ * Khóa dùng trong hệ thống: market_open, fee_rate, sell_tax_rate, initial_capital,
+ * price_interval_seconds, snapshot_time, price_volatility, max_fill_per_tick.
  */
 class MarketSetting extends Model
 {
@@ -19,6 +19,8 @@ class MarketSetting extends Model
         'initial_capital' => ['100000000', 'Vốn khởi tạo cho tài khoản mới (VND)'],
         'price_interval_seconds' => ['30', 'Chu kỳ cập nhật giá trong phiên'],
         'snapshot_time' => ['15:05', 'Giờ chụp ảnh danh mục cuối ngày (giờ Việt Nam)'],
+        'price_volatility' => ['0.011', 'Biên dao động giá tối đa mỗi lần cập nhật (1,1%)'],
+        'max_fill_per_tick' => ['1000', 'Khối lượng khớp tối đa cho một lệnh LO mỗi lần cập nhật giá'],
     ];
 
     protected $fillable = ['key', 'value', 'description'];

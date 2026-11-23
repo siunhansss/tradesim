@@ -14,7 +14,7 @@ Vai trò: **TV1** trưởng nhóm, backend giao dịch · **TV2** dữ liệu gi
 | 6 | 6 | TV4 | Trang cấu hình thị trường (mở/đóng phiên, phí, thuế, vốn) có audit log | FR-13, FR-14 |
 | 7 | 6 | TV1 | Đặt lệnh MP mua và bán: transaction, `lockForUpdate`, bút toán, holding, giá vốn (đã gộp vào #3, đóng cùng #3) | FR-06, FR-07, FR-10, BR-07 |
 | 8 | 6 | TV3 | Trang danh mục: nắm giữ, giá vốn, giá trị, lãi/lỗ | FR-11 |
-| 9 | 7 | TV1 | Lệnh LO, job `ProcessPendingOrders`, khớp một phần | FR-08, 5.6 |
+| 9 | 7 | TV1 | Lệnh LO, khớp một phần (đã làm ở tuần 6 cùng #5: `LimitOrderMatcher`) | FR-08, 5.6 |
 | 10 | 7 | TV1 | Hủy lệnh, `OrderPolicy::cancel`, giải phóng phần chưa khớp | FR-09, BR-06 |
 | 11 | 7 | TV1 | Sổ lệnh: lọc theo mã, trạng thái, ngày; sắp xếp; phân trang | FR-12 |
 | 12 | 7 | TV2 | `tradesim:close-session`: giá đóng cửa, tham chiếu mới, hủy LO treo | 5.6 |

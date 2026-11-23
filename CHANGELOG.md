@@ -5,6 +5,18 @@
 ## [Unreleased]
 
 ### Thêm
+- Price Engine: lệnh `tradesim:prices`, lịch chạy mỗi 30 giây, ghi lịch sử giá và `job_runs` (#5).
+- Tự động khớp lệnh LO khi giá chạm giá đặt, tối đa 1.000 cp mỗi lần, có khớp một phần (#9).
+- Trang cấu hình thị trường cho Admin: mở/đóng phiên, phí, thuế, vốn khởi tạo, biên dao động; nút chạy cập nhật giá; bảng tác vụ nền (#6).
+- Trang danh mục: nắm giữ, giá vốn, lãi/lỗ, tỷ trọng, sắp xếp, biểu đồ phân bổ, vị thế đã bán hết (#8).
+- Tài liệu quy tắc giá và khớp lệnh `docs/design/matching-rules.md`.
+
+### Sửa
+- `OrderController` nhận `OrderService` theo từng request để luôn dùng tỷ lệ phí mới nhất (BR-13).
+
+## [0.2.0] – 2026-11-23
+
+### Thêm
 - Đặt lệnh MP và LO từ trang chi tiết mã; lệnh MP khớp ngay, lệnh LO giữ tiền hoặc cổ phiếu và chờ khớp (#3, #7).
 - `OrderService`, `MatchingService`: transaction, khóa hàng, chống trùng `request_key`, ghi sổ tiền và audit log.
 - `PortfolioService`: tổng tài sản, lãi/lỗ đã và chưa thực hiện, ROI, tỷ trọng; trang tổng quan hiển thị danh mục (#4).

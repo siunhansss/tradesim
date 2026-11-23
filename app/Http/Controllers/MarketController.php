@@ -69,7 +69,7 @@ class MarketController extends Controller
             'marketOpen' => MarketSetting::isMarketOpen(),
             'feeRate' => (float) MarketSetting::value('fee_rate'),
             'taxRate' => (float) MarketSetting::value('sell_tax_rate'),
-            'chartLabels' => $history->map(fn ($p) => Format::datetime($p->recorded_at, 'd/m'))->all(),
+            'chartLabels' => $history->map(fn ($p) => Format::datetime($p->recorded_at, 'd/m H:i'))->all(),
             'chartPrices' => $history->pluck('price')->all(),
         ]);
     }

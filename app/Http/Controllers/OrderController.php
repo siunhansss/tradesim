@@ -10,12 +10,14 @@ use Illuminate\Http\RedirectResponse;
 
 class OrderController extends Controller
 {
-    public function __construct(private OrderService $orders) {}
-
-    public function store(PlaceOrderRequest $request): RedirectResponse
+    /**
+     * OrderService nhận qua tham số (không qua constructor) để mỗi request lấy tỷ lệ phí, thuế
+     * mới nhất từ cấu hình; controller có thể được Laravel giữ lại giữa các request (BR-13).
+     */
+    public function store(PlaceOrderRequest $request, OrderService $orders): RedirectResponse
     {
         $stock = $request->stock();
-        $result = $this->orders->place($request->user(), $stock, $request->validated());
+        $result = $orders->place($request->user(), $stock, $request->validated());
         $order = $result->order;
         $back = redirect()->route('market.show', $stock->symbol);
 

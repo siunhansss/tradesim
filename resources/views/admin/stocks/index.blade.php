@@ -3,6 +3,8 @@
 @section('title', 'Quản lý mã cổ phiếu')
 
 @section('content')
+@include('admin._nav')
+
 <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
     <h1 class="h4 mb-0 me-auto">Quản lý mã cổ phiếu</h1>
     <a href="{{ route('admin.stocks.create') }}" class="btn btn-primary">Thêm mã</a>
