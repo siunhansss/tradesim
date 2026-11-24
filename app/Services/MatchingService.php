@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\LedgerType;
 use App\Enums\OrderSide;
 use App\Enums\OrderStatus;
+use App\Events\OrderFilled;
 use App\Models\Holding;
 use App\Models\Order;
 use App\Models\Stock;
@@ -99,7 +100,7 @@ class MatchingService
             throw new LogicException("Số dư khả dụng âm sau khi khớp lệnh #{$order->id}.");
         }
 
-        return Trade::query()->create([
+        $trade = Trade::query()->create([
             'order_id' => $order->id,
             'user_id' => $order->user_id,
             'stock_id' => $order->stock_id,
@@ -114,5 +115,10 @@ class MatchingService
             'realized_pnl' => $realized,
             'executed_at' => now(),
         ]);
+
+        // Thông báo khớp lệnh: event chỉ phát sau khi transaction commit (ShouldDispatchAfterCommit).
+        OrderFilled::dispatch($order, $trade);
+
+        return $trade;
     }
 }

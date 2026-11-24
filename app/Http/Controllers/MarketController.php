@@ -66,6 +66,7 @@ class MarketController extends Controller
             'canTrade' => $canTrade,
             'wallet' => $canTrade ? $user->wallet()->first() : null,
             'holding' => $canTrade ? $user->holdings()->where('stock_id', $stock->id)->first() : null,
+            'watching' => $canTrade && $user->watchlists()->where('stock_id', $stock->id)->exists(),
             'marketOpen' => MarketSetting::isMarketOpen(),
             'feeRate' => (float) MarketSetting::value('fee_rate'),
             'taxRate' => (float) MarketSetting::value('sell_tax_rate'),

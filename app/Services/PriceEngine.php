@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\StockStatus;
+use App\Jobs\EvaluatePriceAlerts;
 use App\Models\JobRun;
 use App\Models\MarketSetting;
 use App\Models\Stock;
@@ -50,6 +51,8 @@ class PriceEngine
         try {
             $updated = $this->updatePrices();
             $match = $this->matcher->run();
+            // Kiểm tra cảnh báo giá qua Queue (quy trình 5.7); worker chạy bằng lịch queue:work.
+            EvaluatePriceAlerts::dispatch();
 
             $result = ['status' => 'ok', 'updated' => $updated, 'fills' => $match['fills'], 'errors' => count($match['errors'])];
             $run->update([

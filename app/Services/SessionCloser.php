@@ -17,13 +17,18 @@ use Throwable;
  * 1. Hủy phần chưa khớp của mọi lệnh LO còn mở và giải phóng tài sản giữ.
  * 2. Ghi giá đóng cửa vào lịch sử giá.
  * 3. Giá đóng cửa thành giá tham chiếu phiên sau; tính lại trần/sàn; đặt lại tổng khối lượng.
- * Chạy lại trong cùng ngày vẫn an toàn: không còn lệnh mở để hủy, giá tham chiếu không đổi.
+ * 4. Chụp ảnh danh mục cuối ngày cho mọi nhà đầu tư (quy trình 5.9c).
+ * Chạy lại trong cùng ngày vẫn an toàn: không còn lệnh mở để hủy, giá tham chiếu không đổi,
+ * ảnh chụp của ngày được cập nhật chứ không tạo mới (BR-16).
  */
 class SessionCloser
 {
     public const CLOSE_SOURCE = 'Giá đóng cửa';
 
-    public function __construct(private OrderService $orders) {}
+    public function __construct(
+        private OrderService $orders,
+        private PortfolioSnapshotter $snapshotter,
+    ) {}
 
     /**
      * @return array{status: string, cancelled: int, stocks: int}
@@ -68,6 +73,7 @@ class SessionCloser
             });
 
             $run->update(['status' => 'ok', 'finished_at' => now(), 'details' => ['actor' => $actor, 'cancelled' => $cancelled, 'stocks' => $stocks]]);
+            $this->snapshotter->take(null, $actor);
 
             return ['status' => 'ok', 'cancelled' => $cancelled, 'stocks' => $stocks];
         } catch (Throwable $e) {

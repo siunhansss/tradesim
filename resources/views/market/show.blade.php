@@ -20,6 +20,24 @@
                             @if (! $stock->isTradable())<span class="badge text-bg-warning fs-6 align-middle">{{ $stock->status->label() }}</span>@endif
                         </h1>
                         <div class="text-secondary">{{ $stock->name }} · {{ $stock->exchange }}{{ $stock->industry ? ' · '.$stock->industry : '' }}</div>
+                        @if ($canTrade)
+                            <div class="d-flex gap-2 mt-2">
+                                @if ($watching)
+                                    <form method="POST" action="{{ route('watchlist.destroy', $stock) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-warning">★ Đang theo dõi</button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ route('watchlist.store') }}">
+                                        @csrf
+                                        <input type="hidden" name="stock_id" value="{{ $stock->id }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-warning">☆ Theo dõi</button>
+                                    </form>
+                                @endif
+                                <a href="{{ route('alerts.index', ['stock_id' => $stock->id]) }}" class="btn btn-sm btn-outline-primary">Đặt cảnh báo giá</a>
+                            </div>
+                        @endif
                     </div>
                     <div class="text-end">
                         <div class="fs-3 fw-semibold num {{ $stock->priceClass() }}">@money($stock->last_price)</div>

@@ -4,6 +4,23 @@
 
 ## [Unreleased]
 
+## [0.4.0] – 2026-12-06
+
+Dừng thêm tính năng (feature freeze). Từ bản này chỉ sửa lỗi, kiểm thử và hoàn thiện tài liệu.
+
+### Thêm
+- Ảnh chụp danh mục cuối ngày: lệnh `tradesim:snapshot`, lịch 15:05, tự chụp khi chốt phiên; mỗi ngày một bản ghi (#16, BR-16).
+- Trang Tài chính: biểu đồ tổng tài sản theo ngày, đỉnh tài sản, mức sụt giảm tối đa (MDD) (#16).
+- Báo cáo tháng và xuất CSV (UTF-8, mở được bằng Excel); số liệu CSV trùng với màn hình (#17).
+- Danh sách theo dõi và cảnh báo giá: thêm, sửa, bật/tắt, xóa; tối đa 20 cảnh báo đang bật (#18, BR-19).
+- Kiểm tra cảnh báo qua Queue (`EvaluatePriceAlerts`, `ShouldBeUnique`); thông báo khớp lệnh qua Event `OrderFilled` + Listener; trang Thông báo (#19, BR-20).
+- Đối soát dữ liệu: lệnh `tradesim:reconcile`, lịch 15:10, trang Admin; kiểm tra sổ cái, tiền giữ, nắm giữ và BR-15 (#20).
+- Trang nhật ký kiểm toán cho Admin: lọc theo hành động, kết quả, người thực hiện, khoảng ngày; phân trang (#21).
+
+### Thay đổi
+- Lệnh LO đặt giá mua ≥ (hoặc bán ≤) giá hiện tại được khớp ngay khi đặt, tối đa 1.000 cp; phần còn lại chờ Price Engine.
+- `schedule:work` tự xử lý hàng đợi mỗi phút, không cần mở thêm cửa sổ `queue:work`.
+
 ## [0.3.0] – 2026-11-29
 
 Bản MVP: đủ luồng giao dịch đặt – khớp – hủy, sổ lệnh, sổ tiền, quản trị người dùng.

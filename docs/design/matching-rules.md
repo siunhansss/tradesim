@@ -20,8 +20,8 @@ Mỗi lần chạy ghi một dòng vào `job_runs` với trạng thái `ok`, `sk
 | Loại | Điều kiện khớp | Giá khớp | Khối lượng |
 |---|---|---|---|
 | MP mua/bán | Khớp ngay khi đặt | Giá hiện tại | Toàn bộ |
-| LO mua | Giá hiện tại ≤ giá đặt | Giá hiện tại | Tối đa `max_fill_per_tick` (1.000 cp) mỗi lần cập nhật giá |
-| LO bán | Giá hiện tại ≥ giá đặt | Giá hiện tại | Tối đa `max_fill_per_tick` (1.000 cp) mỗi lần cập nhật giá |
+| LO mua | Giá hiện tại ≤ giá đặt (xét ngay khi đặt và mỗi lần cập nhật giá) | Giá hiện tại | Tối đa `max_fill_per_tick` (1.000 cp) mỗi lần |
+| LO bán | Giá hiện tại ≥ giá đặt (xét ngay khi đặt và mỗi lần cập nhật giá) | Giá hiện tại | Tối đa `max_fill_per_tick` (1.000 cp) mỗi lần |
 
 - Lệnh đặt trước được xét trước (theo số hiệu lệnh).
 - Giới hạn khối lượng mỗi lần mô phỏng thanh khoản có hạn, nên lệnh lớn sẽ qua trạng thái **Khớp một phần**.

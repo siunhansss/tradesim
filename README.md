@@ -15,9 +15,10 @@
 | M04 Đặt lệnh MP/LO, khớp lệnh MP ngay, khớp LO theo Price Engine, khớp một phần | Có (v0.3.0) |
 | M04 Hủy lệnh, sổ lệnh và lịch sử giao dịch có lọc, sắp xếp, phân trang; chốt phiên | Có (v0.3.0) |
 | M05 Danh mục: giá vốn, lãi/lỗ, tỷ trọng, biểu đồ phân bổ | Có (v0.3.0) |
-| M06 Tổng quan tài chính; báo cáo tháng CSV | Một phần |
+| M06 Tài chính: biểu đồ tổng tài sản, MDD, ảnh chụp cuối ngày, báo cáo tháng, xuất CSV | Có (v0.4.0) |
 | M10 Cấu hình thị trường, chạy cập nhật giá, chốt phiên; CRUD người dùng | Có (v0.3.0) |
-| M09 Watchlist, cảnh báo giá, thông báo | Đang làm |
+| M09 Watchlist, cảnh báo giá (Queue), thông báo khớp lệnh (Event, Notification) | Có (v0.4.0) |
+| M10 Đối soát dữ liệu, nhật ký kiểm toán | Có (v0.4.0) |
 
 ## Yêu cầu hệ thống
 
@@ -76,7 +77,8 @@ Mở http://127.0.0.1:8000
 Giá chỉ thay đổi khi Price Engine chạy. Mở thêm một cửa sổ terminal:
 
 ```bash
-php artisan schedule:work                         # cập nhật giá mỗi 30 giây, khớp lệnh LO
+php artisan schedule:work                         # giá mỗi 30 giây, khớp LO, hàng đợi cảnh báo mỗi phút,
+                                                  # chốt phiên 14:45, ảnh chụp 15:05, đối soát 15:10
 # hoặc chạy tay khi demo:
 php artisan tradesim:prices --times=10 --sleep=3
 ```
