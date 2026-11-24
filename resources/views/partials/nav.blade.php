@@ -13,8 +13,9 @@
                         <li class="nav-item"><a class="nav-link @if(request()->routeIs('portfolio.*')) active fw-semibold @endif" href="{{ route('portfolio.index') }}">Danh mục</a></li>
                         <li class="nav-item"><a class="nav-link @if(request()->routeIs('orders.*', 'trades.*')) active fw-semibold @endif" href="{{ route('orders.index') }}">Sổ lệnh</a></li>
                         <li class="nav-item"><a class="nav-link @if(request()->routeIs('wallet.*')) active fw-semibold @endif" href="{{ route('wallet.index') }}">Ví</a></li>
+                        <li class="nav-item"><a class="nav-link @if(request()->routeIs('finance.*')) active fw-semibold @endif" href="{{ route('finance.index') }}">Tài chính</a></li>
+                        <li class="nav-item"><a class="nav-link @if(request()->routeIs('watchlist.*', 'alerts.*')) active fw-semibold @endif" href="{{ route('watchlist.index') }}">Theo dõi</a></li>
                     @endcan
-                    {{-- Tuần 8: Báo cáo tài chính, Cảnh báo giá --}}
                     @can('admin')
                         <li class="nav-item"><a class="nav-link @if(request()->routeIs('admin.*')) active fw-semibold @endif" href="{{ route('admin.index') }}">Quản trị</a></li>
                     @endcan
@@ -22,6 +23,13 @@
             </ul>
             <ul class="navbar-nav">
                 @auth
+                    @php($unread = auth()->user()->unreadNotifications()->count())
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{{ route('notifications.index') }}" aria-label="Thông báo, {{ $unread }} chưa đọc">
+                            Thông báo
+                            @if ($unread > 0)<span class="badge rounded-pill text-bg-danger">{{ $unread }}</span>@endif
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ auth()->user()->name }}

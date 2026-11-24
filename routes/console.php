@@ -17,3 +17,20 @@ Schedule::command('tradesim:close-session')
     ->weekdays()
     ->at('14:45')
     ->timezone('Asia/Ho_Chi_Minh');
+
+// Đối soát dữ liệu lúc 15:10 giờ Việt Nam, sau chốt phiên (issue #20).
+Schedule::command('tradesim:reconcile')
+    ->weekdays()
+    ->at('15:10')
+    ->timezone('Asia/Ho_Chi_Minh');
+
+// Chụp ảnh danh mục lúc 15:05 giờ Việt Nam (issue #16, BR-16). Chốt phiên cũng tự chụp.
+Schedule::command('tradesim:snapshot')
+    ->weekdays()
+    ->at('15:05')
+    ->timezone('Asia/Ho_Chi_Minh');
+
+// Xử lý hàng đợi (cảnh báo giá) mỗi phút khi đang chạy schedule:work, không cần mở thêm cửa sổ queue:work.
+Schedule::command('queue:work --stop-when-empty --tries=3')
+    ->everyMinute()
+    ->withoutOverlapping();

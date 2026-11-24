@@ -4,12 +4,16 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\PriceAlertController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TradeController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\WatchlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,10 +55,25 @@ Route::middleware('auth')->group(function () {
     // M03 – Ví ảo và sổ dòng tiền.
     Route::get('/wallet', [WalletController::class, 'index'])->middleware('can:trade')->name('wallet.index');
 
+    // M06 – Quản lý tài chính: tổng quan, báo cáo tháng, CSV.
+    Route::middleware('can:trade')->group(function () {
+        Route::get('/finance', [FinanceController::class, 'index'])->name('finance.index');
+        Route::get('/finance/reports/{month}', [FinanceController::class, 'report'])->name('finance.report');
+        Route::get('/finance/reports/{month}/csv', [FinanceController::class, 'csv'])->name('finance.report.csv');
+    });
+
     // M05 – Danh mục.
     Route::get('/portfolio', [PortfolioController::class, 'index'])->middleware('can:trade')->name('portfolio.index');
 
-    // M03, M06, M09 – thêm ở các sprint sau (xem docs/design/routes.md).
+    // M09 – Theo dõi, cảnh báo giá, thông báo.
+    Route::middleware('can:trade')->group(function () {
+        Route::get('/watchlist', [WatchlistController::class, 'index'])->name('watchlist.index');
+        Route::post('/watchlist', [WatchlistController::class, 'store'])->name('watchlist.store');
+        Route::delete('/watchlist/{stock}', [WatchlistController::class, 'destroy'])->name('watchlist.destroy');
+        Route::resource('alerts', PriceAlertController::class)->except(['create', 'show']);
+    });
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
 });
 
 // M10 – Quản trị: chỉ Admin (FR-02).
@@ -62,6 +81,9 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     Route::redirect('/', '/admin/stocks')->name('index');
     Route::resource('stocks', Admin\StockController::class)->except('show');
     Route::resource('users', Admin\UserController::class)->except('show');
+    Route::get('/reconcile', [Admin\ReconcileController::class, 'index'])->name('reconcile.index');
+    Route::post('/reconcile', [Admin\ReconcileController::class, 'store'])->name('reconcile.store');
+    Route::get('/audit-logs', [Admin\AuditLogController::class, 'index'])->name('audit.index');
     Route::get('/settings', [Admin\SettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [Admin\SettingController::class, 'update'])->name('settings.update');
     Route::post('/prices/run', [Admin\SettingController::class, 'runPrices'])->name('prices.run');

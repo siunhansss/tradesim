@@ -25,7 +25,7 @@ Vai trò: **TV1** trưởng nhóm, backend giao dịch · **TV2** dữ liệu gi
 | 17 | 8 | TV3 | Báo cáo tháng và xuất CSV | FR-20 |
 | 18 | 8 | TV2 | Watchlist (thêm/xóa) và CRUD cảnh báo giá | FR-23, FR-24 |
 | 19 | 8 | TV2 | Job `EvaluatePriceAlerts`, Notification kênh database, trang thông báo | FR-24, BR-19, BR-20 |
-| 20 | 8 | TV1 | Lệnh `tradesim:reconcile` và nút chạy đối soát cho Admin | 8.1, BR-15 |
+| 20 | 8 | TV1 | Lệnh `tradesim:reconcile` và nút chạy đối soát cho Admin (kèm: LO khớp ngay khi đặt nếu đủ điều kiện) | 8.1, BR-15 |
 | 21 | 8 | TV4 | Trang xem audit log: lọc theo hành động, người dùng, ngày; phân trang | FR-14 |
 | 22 | 9 | TV3 | Rà soát toàn bộ tiêu chí mục 11, bổ sung test còn thiếu, chụp minh chứng | Mục 11 |
 | 23 | 9 | TV4 | README, hướng dẫn sử dụng có ảnh chụp màn hình, thử cài từ máy mới | 1.6 |

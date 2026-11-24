@@ -172,6 +172,11 @@ class OrderService
 
         if ($type === OrderType::Market) {
             $this->matching->fill($order, $quantity, $stock->last_price, $wallet, $holding, $stock);
+        } elseif ($this->isMarketable($side, $limitPrice, $stock->last_price)) {
+            // Lệnh LO đặt giá mua ≥ (hoặc bán ≤) giá hiện tại khớp ngay như trên sàn thật,
+            // tối đa max_fill_per_tick cổ phiếu; phần còn lại chờ Price Engine (matching-rules.md).
+            $maxFill = max(100, intdiv((int) MarketSetting::value('max_fill_per_tick'), 100) * 100);
+            $this->matching->fill($order, min($quantity, $maxFill), $stock->last_price, $wallet, $holding, $stock);
         }
 
         $this->audit->log('order.place', $order, 'ok', [
@@ -180,6 +185,11 @@ class OrderService
         ], $user);
 
         return new OrderPlacement($order);
+    }
+
+    private function isMarketable(OrderSide $side, int $limitPrice, int $lastPrice): bool
+    {
+        return $side === OrderSide::Buy ? $lastPrice <= $limitPrice : $lastPrice >= $limitPrice;
     }
 
     private function checkCash(Wallet $wallet, int $quantity, int $price): ?string

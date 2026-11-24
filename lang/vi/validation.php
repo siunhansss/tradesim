@@ -109,5 +109,6 @@ return [
         'side' => 'chiều lệnh',
         'type' => 'loại',
         'role' => 'vai trò',
+        'stock_id' => 'mã cổ phiếu',
     ],
 ];
